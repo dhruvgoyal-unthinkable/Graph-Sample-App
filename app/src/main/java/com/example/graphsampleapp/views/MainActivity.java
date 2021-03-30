@@ -1,12 +1,15 @@
 package com.example.graphsampleapp.views;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.graphsampleapp.MenuItemListener;
+import com.example.graphsampleapp.R;
 import com.example.graphsampleapp.databinding.ActivityMainBinding;
 import com.example.graphsampleapp.repositories.DataProvider;
 import com.example.graphsampleapp.repositories.DataRepository;
@@ -24,6 +27,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         Utility.updateFragment(this, new StepsFragment());
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.options,menu);
+        return true;
     }
 
     @Override

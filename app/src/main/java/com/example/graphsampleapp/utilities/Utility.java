@@ -1,7 +1,5 @@
 package com.example.graphsampleapp.utilities;
 
-import android.content.Context;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
@@ -25,6 +23,6 @@ public class Utility {
     }
 
     public static void updateFragment(AppCompatActivity activity, Fragment fragment) {
-        activity.getSupportFragmentManager().beginTransaction().add(R.id.fragment, fragment, "Steps Fragment").commit();
+        activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment, fragment).commit();
     }
 }
