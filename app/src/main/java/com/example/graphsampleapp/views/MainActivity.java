@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         Utility.updateFragment(this, new StepsFragment());
-        Utility.updateFragment(this, new BloodPressureFragment());
+
         
 
     }
