@@ -26,5 +26,7 @@ public class Utility {
 
     public static void updateFragment(AppCompatActivity activity, Fragment fragment) {
         activity.getSupportFragmentManager().beginTransaction().add(R.id.fragment, fragment, "Steps Fragment").commit();
+        activity.getSupportFragmentManager().beginTransaction().add(R.id.fragment, fragment, "BloodPressure Fragment").commit();
+
     }
 }
