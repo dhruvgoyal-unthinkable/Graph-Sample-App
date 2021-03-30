@@ -45,4 +45,16 @@ public class DataProvider {
     public BarData getMonthlyCalories() {
         return repository.getMonthlyData("smart_daily", "calories");
     }
+
+    public BarData getDailyBloodPressure() {
+        return repository.getDailyData("smart_bp", "spo2Data");
+    }
+
+    public BarData getWeeklyBloodPressure() {
+        return repository.getWeeklyData("smart_bp", "spo2Data");
+    }
+
+    public BarData getMonthlyBloodPressure() {
+        return repository.getMonthlyData("smart_bp", "spo2Data");
+    }
 }
