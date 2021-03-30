@@ -23,11 +23,6 @@ public class Utility {
     }
 
     public static void updateFragment(AppCompatActivity activity, Fragment fragment) {
-<<<<<<< HEAD
         activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment, fragment).commit();
-=======
-        activity.getSupportFragmentManager().beginTransaction().add(R.id.fragment, fragment, "Steps Fragment").commit();
-
->>>>>>> 355cbe25acedb8ede1cfe060bdd3afd4d595cd47
     }
 }
