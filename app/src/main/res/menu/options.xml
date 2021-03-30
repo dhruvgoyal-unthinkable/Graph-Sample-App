@@ -3,5 +3,11 @@
     <item
         android:id="@+id/steps"
         android:title="Steps" />
+    <item
+        android:id="@+id/distance"
+        android:title="Distance" />
+    <item
+        android:id="@+id/calories"
+        android:title="Calories" />
 
 </menu>
