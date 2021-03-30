@@ -28,6 +28,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        return MenuItemListener.itemListener(item);
+        return MenuItemListener.itemListener(item,this);
     }
 }
