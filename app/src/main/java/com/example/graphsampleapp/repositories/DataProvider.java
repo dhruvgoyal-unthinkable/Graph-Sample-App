@@ -1,7 +1,13 @@
 package com.example.graphsampleapp.repositories;
 
 import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.DataSet;
 import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DataProvider {
     DataRepository repository;
@@ -12,11 +18,11 @@ public class DataProvider {
     }
 
     public BarData getDailySteps() {
-        return repository.getDailyData("smart_daily", "step");
+        return repository.getDailyData("smart_daily", new String[]{"step"});
     }
 
     public BarData getWeeklySteps() {
-        return repository.getWeeklyData("smart_daily", "step");
+        return repository.getWeeklyData("smart_daily", new String[]{"step"});
     }
 
     public BarData getMonthlySteps() {
@@ -24,11 +30,11 @@ public class DataProvider {
     }
 
     public BarData getDailyDistance() {
-        return repository.getDailyData("smart_daily", "distance");
+        return repository.getDailyData("smart_daily", new String[]{"distance"});
     }
 
     public BarData getWeeklyDistance() {
-        return repository.getWeeklyData("smart_daily", "distance");
+        return repository.getWeeklyData("smart_daily", new String[]{"distance"});
     }
 
     public BarData getMonthlyDistance() {
@@ -36,11 +42,11 @@ public class DataProvider {
     }
 
     public BarData getDailyCalories() {
-        return repository.getDailyData("smart_daily", "calories");
+        return repository.getDailyData("smart_daily", new String[]{"calories"});
     }
 
     public BarData getWeeklyCalories() {
-        return repository.getWeeklyData("smart_daily", "calories");
+        return repository.getWeeklyData("smart_daily", new String[]{"calories"});
     }
 
     public BarData getMonthlyCalories() {
@@ -48,16 +54,17 @@ public class DataProvider {
     }
 
     public BarData getDailyBloodOxygen() {
-        return repository.getDailyData("smart_bp", "spo2Data");
+        return repository.getDailyData("smart_bp", new String[]{"spo2Data"});
     }
 
     public BarData getWeeklyBloodOxygen() {
-        return repository.getWeeklyData("smart_bp", "spo2Data");
+        return repository.getWeeklyData("smart_bp", new String[]{"spo2Data"});
     }
 
     public BarData getMonthlyBloodOxygen() {
         return repository.getMonthlyData("smart_bp", "spo2Data");
     }
+
     public LineData getDailyTemperature() {
         return repository.getDailyLineGraphData("smart_temp", "temperature");
     }
@@ -68,5 +75,19 @@ public class DataProvider {
 
     public LineData getMonthlyTemperature() {
         return repository.getMonthlyLineGraphData("smart_temp", "temperature");
+    }
+
+    public BarData getDailyBloodPressure() {
+        return repository.getDailyData("smart_hrv", new String[]{"highBP", "lowBP"});
+    }
+
+    public BarData getWeeklyBloodPressure() {
+        return repository.getWeeklyData("smart_hrv", new String[]{"highBP", "lowBP"});
+    }
+
+    public BarData getMonthlyBloodPressure() {
+        List<IBarDataSet> dataSet = repository.getMonthlyData("smart_hrv", "highBP").getDataSets();
+        dataSet.addAll(repository.getMonthlyData("smart_hrv", "lowBP").getDataSets());
+        return new BarData(dataSet);
     }
 }

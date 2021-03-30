@@ -1,6 +1,7 @@
 package com.example.graphsampleapp.repositories;
 
 import android.graphics.Color;
+import android.util.Log;
 
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
@@ -16,6 +17,8 @@ import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -225,56 +228,66 @@ public class DataRepository {
         }
     }
 
-    public BarData getDailyData(String category, String data) {
+    int[] colors = new int[]{Color.RED, Color.YELLOW, Color.BLUE, Color.GREEN};
+
+    public BarData getDailyData(String category, String[] data) {
         ArrayList<BarEntry> barEntries = new ArrayList<>();
-        SimpleDateFormat currentDate = new SimpleDateFormat("yyyy.MM.dd", Locale.ENGLISH);
-        Date todayDate = new Date();
-        String thisDate = currentDate.format(todayDate);
+        int[] thisColors = new int[data.length];
         try {
             JSONArray dailyDetails = (JSONArray) details.get(category);
 
             for (int i = 0; i < dailyDetails.length(); i++) {
                 JSONObject detail = (JSONObject) dailyDetails.get(i);
-                if (thisDate.compareTo(detail.getString("date")) == 0){
-                    barEntries.add(new BarEntry(dailyDetails.length() - 1 - i, detail.getInt(data)));
-
+                float[] values = new float[data.length];
+                for (int j = 0; j < data.length; j++) {
+                    values[j] = Float.parseFloat(detail.getString(data[j]));
+                    thisColors[j] = colors[j];
                 }
-
+                barEntries.add(new BarEntry(dailyDetails.length() - 1 - i, values));
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
         BarDataSet dataSet = new BarDataSet(barEntries, "");
-        dataSet.setColor(Color.RED);
+        dataSet.setColors(thisColors);
         return new BarData(dataSet);
     }
 
-    public BarData getWeeklyData(String category, String data) {
+    public BarData getWeeklyData(String category, String[] data) {
         ArrayList<BarEntry> barEntries = new ArrayList<>();
         SimpleDateFormat currentDate = new SimpleDateFormat("yyyy.MM.dd", Locale.ENGLISH);
         Date todayDate = new Date();
         String thisDate = currentDate.format(todayDate);
+        int[] thisColors = new int[data.length];
+
         try {
             int total = 0;
             int pos = 52; ///1 year = 52 week
             JSONArray dailyDetails = (JSONArray) details.get(category);
+            float[] values = new float[data.length];
+            Arrays.fill(values, 0.0f);
             for (int i = 0; i < dailyDetails.length(); i++) {
                 JSONObject detail = (JSONObject) dailyDetails.get(i);
-                if (thisDate.compareTo(detail.getString("date")) < 6)
-                    total += detail.getInt(data);
-                else {
-                    barEntries.add(new BarEntry(pos--, (int) (total / 7)));
+                if (thisDate.compareTo(detail.getString("date")) < 6) {
+                    for (int j = 0; j < data.length; j++) {
+                        values[j] += Float.parseFloat(detail.getString(data[j]))/7;
+                        thisColors[j] = colors[j];
+                    }
+                } else {
+                    barEntries.add(new BarEntry(pos--, values));
                     thisDate = detail.getString("date");
-                    total = detail.getInt(data);
+                    for (int j = 0; j < data.length; j++) {
+                        values[j] = Float.parseFloat(detail.getString(data[j]))/7;
+                    }
                 }
             }
-            barEntries.add(new BarEntry(pos, (int) (total / 7)));
+            barEntries.add(new BarEntry(pos, values));
         } catch (JSONException e) {
             e.printStackTrace();
         }
         BarDataSet dataSet = new BarDataSet(barEntries, "");
-        dataSet.setColor(Color.RED);
+        dataSet.setColors(thisColors);
         return new BarData(dataSet);
     }
 
@@ -293,12 +306,12 @@ public class DataRepository {
                 if (thisMonth.equals(detail.getString("date").split("\\.")[1]))
                     total += detail.getInt(data);
                 else {
-                    barEntries.add(new BarEntry(pos--, (int) (total / 30)));
+                    barEntries.add(new BarEntry(pos--, (float) total / 30));
                     thisMonth = detail.getString("date").split("\\.")[1];
                     total = detail.getInt(data);
                 }
             }
-            barEntries.add(new BarEntry(pos, (int) (total / 7)));
+            barEntries.add(new BarEntry(pos, (float) total / 30));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -314,7 +327,7 @@ public class DataRepository {
             JSONArray dailyDetails = (JSONArray) details.get(category);
             for (int i = 0; i < dailyDetails.length(); i++) {
                 JSONObject detail = (JSONObject) dailyDetails.get(i);
-                lineEntries.add(new Entry(dailyDetails.length() - 1 - i, Float.parseFloat(String.valueOf(detail.get(data)))));
+                lineEntries.add(new Entry(i, Float.parseFloat(detail.getString(data))));
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -386,6 +399,4 @@ public class DataRepository {
         dataSet.setColor(Color.BLUE);
         return new LineData(dataSets);
     }
-
-
 }

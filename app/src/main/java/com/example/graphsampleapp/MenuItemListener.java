@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.graphsampleapp.utilities.Utility;
 import com.example.graphsampleapp.views.fragments.BloodOxygenFragment;
+import com.example.graphsampleapp.views.fragments.BloodPressureFragment;
 import com.example.graphsampleapp.views.fragments.CaloriesFragment;
 import com.example.graphsampleapp.views.fragments.DistanceFragment;
 import com.example.graphsampleapp.views.fragments.StepsFragment;
@@ -26,6 +27,9 @@ public class MenuItemListener {
         }
         else if(item.getItemId() == R.id.temp){
             Utility.updateFragment(activity, new TemperatureFragment());
+        }
+        else if(item.getItemId() == R.id.bloodPressure){
+            Utility.updateFragment(activity,new BloodPressureFragment());
         }
         //add items here
         return false;

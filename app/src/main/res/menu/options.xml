@@ -15,5 +15,7 @@
     <item
         android:id="@+id/temp"
         android:title="Temperature" />
+    <item android:id="@+id/bloodPressure"
+        android:title="Blood Pressure"/>
 
 </menu>
