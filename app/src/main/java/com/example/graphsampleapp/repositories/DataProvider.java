@@ -1,6 +1,7 @@
 package com.example.graphsampleapp.repositories;
 
 import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.LineData;
 
 public class DataProvider {
     DataRepository repository;
@@ -46,15 +47,26 @@ public class DataProvider {
         return repository.getMonthlyData("smart_daily", "calories");
     }
 
-    public BarData getDailyBloodPressure() {
+    public BarData getDailyBloodOxygen() {
         return repository.getDailyData("smart_bp", "spo2Data");
     }
 
-    public BarData getWeeklyBloodPressure() {
+    public BarData getWeeklyBloodOxygen() {
         return repository.getWeeklyData("smart_bp", "spo2Data");
     }
 
-    public BarData getMonthlyBloodPressure() {
+    public BarData getMonthlyBloodOxygen() {
         return repository.getMonthlyData("smart_bp", "spo2Data");
+    }
+    public LineData getDailyTemperature() {
+        return repository.getDailyLineGraphData("smart_temp", "temperature");
+    }
+
+    public LineData getWeeklyTemperature() {
+        return repository.getWeeklyLineGraphData("smart_temp", "temperature");
+    }
+
+    public LineData getMonthlyTemperature() {
+        return repository.getMonthlyLineGraphData("smart_temp", "temperature");
     }
 }

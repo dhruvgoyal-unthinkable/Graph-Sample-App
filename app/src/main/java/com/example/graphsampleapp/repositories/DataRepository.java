@@ -5,6 +5,10 @@ import android.graphics.Color;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -223,12 +227,19 @@ public class DataRepository {
 
     public BarData getDailyData(String category, String data) {
         ArrayList<BarEntry> barEntries = new ArrayList<>();
-
+        SimpleDateFormat currentDate = new SimpleDateFormat("yyyy.MM.dd", Locale.ENGLISH);
+        Date todayDate = new Date();
+        String thisDate = currentDate.format(todayDate);
         try {
             JSONArray dailyDetails = (JSONArray) details.get(category);
+
             for (int i = 0; i < dailyDetails.length(); i++) {
                 JSONObject detail = (JSONObject) dailyDetails.get(i);
-                barEntries.add(new BarEntry(dailyDetails.length() - 1 - i, detail.getInt(data)));
+                if (thisDate.compareTo(detail.getString("date")) == 0){
+                    barEntries.add(new BarEntry(dailyDetails.length() - 1 - i, detail.getInt(data)));
+
+                }
+
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -295,4 +306,86 @@ public class DataRepository {
         dataSet.setColor(Color.RED);
         return new BarData(dataSet);
     }
+
+    public LineData getDailyLineGraphData(String category, String data) {
+        ArrayList<Entry> lineEntries = new ArrayList<>();
+
+        try {
+            JSONArray dailyDetails = (JSONArray) details.get(category);
+            for (int i = 0; i < dailyDetails.length(); i++) {
+                JSONObject detail = (JSONObject) dailyDetails.get(i);
+                lineEntries.add(new Entry(dailyDetails.length() - 1 - i, Float.parseFloat(String.valueOf(detail.get(data)))));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        LineDataSet dataSet = new LineDataSet(lineEntries, "");
+        ArrayList<ILineDataSet> dataSets = new ArrayList<>();
+        dataSets.add(dataSet);
+        dataSet.setColor(Color.BLUE);
+        return new LineData(dataSets);
+    }
+
+    public LineData getWeeklyLineGraphData(String category, String data) {
+        ArrayList<Entry> lineEntries = new ArrayList<>();
+        SimpleDateFormat currentDate = new SimpleDateFormat("yyyy.MM.dd", Locale.ENGLISH);
+        Date todayDate = new Date();
+        String thisDate = currentDate.format(todayDate);
+        try {
+            int total = 0;
+            int pos = 52; ///1 year = 52 week
+            JSONArray dailyDetails = (JSONArray) details.get(category);
+            for (int i = 0; i < dailyDetails.length(); i++) {
+                JSONObject detail = (JSONObject) dailyDetails.get(i);
+                if (thisDate.compareTo(detail.getString("date")) < 6)
+                    total += detail.getInt(data);
+                else {
+                    lineEntries.add(new Entry(pos--, (float) (total / 7)));
+                    thisDate = detail.getString("date");
+                    total = detail.getInt(data);
+                }
+            }
+            lineEntries.add(new Entry(pos, (int) (total / 7)));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        LineDataSet dataSet = new LineDataSet(lineEntries, "");
+        ArrayList<ILineDataSet> dataSets = new ArrayList<>();
+        dataSets.add(dataSet);
+        dataSet.setColor(Color.BLUE);
+        return new LineData(dataSets);
+    }
+
+    public LineData getMonthlyLineGraphData(String category, String data) {
+        ArrayList<Entry> lineEntries = new ArrayList<Entry>();
+        SimpleDateFormat currentDate = new SimpleDateFormat("yyyy.MM.dd", Locale.ENGLISH);
+        Date todayDate = new Date();
+        String thisMonth = currentDate.format(todayDate).split("\\.")[1];
+        try {
+            int total = 0;
+            int pos = 12; ///1 year = 12 months
+            JSONArray dailyDetails = (JSONArray) details.get(category);
+            for (int i = 0; i < dailyDetails.length(); i++) {
+                JSONObject detail = (JSONObject) dailyDetails.get(i);
+                if (thisMonth.equals(detail.getString("date").split("\\.")[1]))
+                    total += detail.getInt(data);
+                else {
+                    lineEntries.add(new Entry(pos--, (float) (total / 30)));
+                    thisMonth = detail.getString("date").split("\\.")[1];
+                    total = detail.getInt(data);
+                }
+            }
+            lineEntries.add(new Entry(pos, (int) (total / 7)));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        LineDataSet dataSet = new LineDataSet(lineEntries, "");
+        ArrayList<ILineDataSet> dataSets = new ArrayList<>();
+        dataSets.add(dataSet);
+        dataSet.setColor(Color.BLUE);
+        return new LineData(dataSets);
+    }
+
+
 }
