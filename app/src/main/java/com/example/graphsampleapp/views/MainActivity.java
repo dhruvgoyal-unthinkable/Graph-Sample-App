@@ -1,13 +1,17 @@
 package com.example.graphsampleapp.views;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.graphsampleapp.MenuItemListener;
 import com.example.graphsampleapp.databinding.ActivityMainBinding;
 import com.example.graphsampleapp.repositories.DataProvider;
 import com.example.graphsampleapp.repositories.DataRepository;
 import com.example.graphsampleapp.utilities.Utility;
+import com.example.graphsampleapp.views.fragments.StepsFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,20 +22,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        addGraph();
+
+        Utility.updateFragment(this, new StepsFragment());
     }
 
-
-    private void addGraph() {
-
-        DataProvider dataProvider = new DataProvider();
-
-        Utility.decorateGraph(binding.stepsChart);
-
-        Utility.updateGraph(binding.stepsChart, dataProvider.getDailySteps());
-
-        binding.weekBtn.setOnClickListener(v -> Utility.updateGraph(binding.stepsChart, dataProvider.getWeeklySteps()));
-        binding.dayBtn.setOnClickListener(v -> Utility.updateGraph(binding.stepsChart, dataProvider.getDailySteps()));
-        binding.monthBtn.setOnClickListener(v -> Utility.updateGraph(binding.stepsChart, dataProvider.getMonthlySteps()));
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        return MenuItemListener.itemListener(item);
     }
 }

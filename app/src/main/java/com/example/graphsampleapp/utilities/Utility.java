@@ -1,5 +1,11 @@
 package com.example.graphsampleapp.utilities;
 
+import android.content.Context;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+
+import com.example.graphsampleapp.R;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
 
@@ -16,5 +22,9 @@ public class Utility {
         barChart.setDescription(null);
         barChart.setPinchZoom(false);
         barChart.setDoubleTapToZoomEnabled(false);
+    }
+
+    public static void updateFragment(AppCompatActivity activity, Fragment fragment) {
+        activity.getSupportFragmentManager().beginTransaction().add(R.id.fragment, fragment, "Steps Fragment").commit();
     }
 }

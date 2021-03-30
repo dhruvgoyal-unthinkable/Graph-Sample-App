@@ -21,4 +21,28 @@ public class DataProvider {
     public BarData getMonthlySteps() {
         return repository.getMonthlyData("smart_daily", "step");
     }
+
+    public BarData getDailyDistance() {
+        return repository.getDailyData("smart_daily", "distance");
+    }
+
+    public BarData getWeeklyDistance() {
+        return repository.getWeeklyData("smart_daily", "distance");
+    }
+
+    public BarData getMonthlyDistance() {
+        return repository.getMonthlyData("smart_daily", "distance");
+    }
+
+    public BarData getDailyCalories() {
+        return repository.getDailyData("smart_daily", "calories");
+    }
+
+    public BarData getWeeklyCalories() {
+        return repository.getWeeklyData("smart_daily", "calories");
+    }
+
+    public BarData getMonthlyCalories() {
+        return repository.getMonthlyData("smart_daily", "calories");
+    }
 }
