@@ -9,7 +9,10 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -240,6 +243,7 @@ public class DataRepository {
                     for (int j = 0; j < data.length; j++) {
                         values[j] = 0.621f * Float.parseFloat(detail.getString(data[j]));
                     }
+
                     barEntries.add(new BarEntry(dailyDetails.length() - 1 - i, values));
                 }
             } else {
@@ -257,6 +261,12 @@ public class DataRepository {
         }
         String labelValue = getCategoryLabel(category, data[0]);
         BarDataSet dataSet = new BarDataSet(barEntries, labelValue);
+        dataSet.setValueFormatter(new ValueFormatter() {
+            @Override
+            public String getFormattedValue(float value) {
+                return String.format(Locale.ENGLISH,"%.1f", value);
+            }
+        });
         dataSet.setColors(thisColors);
         dataSet.setStackLabels(data);
         return new BarData(dataSet);
@@ -301,7 +311,12 @@ public class DataRepository {
         String labelValue = getCategoryLabel(category, data[0]);
         BarDataSet dataSet = new BarDataSet(barEntries, labelValue);
         dataSet.setColors(thisColors);
-        dataSet.setStackLabels(data);
+        dataSet.setValueFormatter(new ValueFormatter() {
+            @Override
+            public String getFormattedValue(float value) {
+                return String.format(Locale.ENGLISH,"%.1f", value);
+            }
+        }); dataSet.setStackLabels(data);
         return new BarData(dataSet);
     }
 
@@ -344,7 +359,12 @@ public class DataRepository {
         }
         String labelValue = getCategoryLabel(category, data[0]);
         BarDataSet dataSet = new BarDataSet(barEntries, labelValue);
-        dataSet.setStackLabels(data);
+        dataSet.setValueFormatter(new ValueFormatter() {
+            @Override
+            public String getFormattedValue(float value) {
+                return String.format(Locale.ENGLISH,"%.1f", value);
+            }
+        }); dataSet.setStackLabels(data);
         dataSet.setColor(Color.RED);
         return new BarData(dataSet);
     }
@@ -372,7 +392,12 @@ public class DataRepository {
         }
         String labelValue = getCategoryLabel(category, data);
         LineDataSet dataSet = new LineDataSet(lineEntries, labelValue);
-        dataSet.setColor(thisColor);
+        dataSet.setValueFormatter(new ValueFormatter() {
+            @Override
+            public String getFormattedValue(float value) {
+                return String.format(Locale.ENGLISH,"%.1f", value);
+            }
+        });dataSet.setColor(thisColor);
         return new LineData(dataSet);
     }
 
@@ -417,7 +442,12 @@ public class DataRepository {
         }
         String labelValue = getCategoryLabel(category, data);
         LineDataSet dataSet = new LineDataSet(lineEntries, labelValue);
-        dataSet.setColor(thisColor);
+        dataSet.setValueFormatter(new ValueFormatter() {
+            @Override
+            public String getFormattedValue(float value) {
+                return String.format(Locale.ENGLISH,"%.1f", value);
+            }
+        });dataSet.setColor(thisColor);
         return new LineData(dataSet);
     }
 
@@ -462,6 +492,12 @@ public class DataRepository {
         }
         String labelValue = getCategoryLabel(category, data);
         LineDataSet dataSet = new LineDataSet(lineEntries, labelValue);
+        dataSet.setValueFormatter(new ValueFormatter() {
+            @Override
+            public String getFormattedValue(float value) {
+                return String.format(Locale.ENGLISH,"%.1f", value);
+            }
+        });
         dataSet.setColor(thisColor);
         return new LineData(dataSet);
     }
