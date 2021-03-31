@@ -471,21 +471,24 @@ public class DataRepository {
         if (category != null) {
             if (category.equalsIgnoreCase("smart_daily")) {
                 if (data.equalsIgnoreCase("distance")) {
-                    label = "in Miles";
+                    label = "Distance in Miles";
                 } else if (data.equalsIgnoreCase("calories")) {
-                    label = "in Kcal";
+                    label = "Calories in Kcal";
                 } else {
-                    label = "";
+                    label = "Steps";
                 }
             } else if (category.equalsIgnoreCase("smart_bp")) {
-                label = "in %";
+                label = "Blood Oxygen in %";
 
             } else if (category.equalsIgnoreCase("smart_temp")) {
-                label = "in Farenheit";
+                label = "Temperature in Farenheit";
 
             } else if (category.equalsIgnoreCase("smart_hrv")) {
                 if (data.equalsIgnoreCase("highBP") || data.equalsIgnoreCase("lowBP")) {
                     label = "in mmhg";
+                }
+                if(data.equalsIgnoreCase("heartRate")){
+                    label = "Heart Rate in Bpm";
                 }
             }
         }
