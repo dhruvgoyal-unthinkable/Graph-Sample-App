@@ -88,4 +88,17 @@ public class DataProvider {
     public BarData getMonthlyBloodPressure() {
         return repository.getMonthlyData("smart_hrv", new String[]{"highBP", "lowBP"});
     }
+
+    public LineData getDailyHearRate() {
+        return repository.getDailyLineGraphData("smart_hrv", "heartRate");
+    }
+
+    public LineData getWeeklyHearRate() {
+        return repository.getWeeklyLineGraphData("smart_hrv", "heartRate");
+    }
+
+    public LineData getMonthlyHearRate() {
+        return repository.getMonthlyLineGraphData("smart_hrv", "heartRate");
+    }
 }
+

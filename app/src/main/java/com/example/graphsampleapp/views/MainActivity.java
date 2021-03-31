@@ -1,17 +1,12 @@
 package com.example.graphsampleapp.views;
 
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.graphsampleapp.MenuItemListener;
-import com.example.graphsampleapp.R;
 import com.example.graphsampleapp.databinding.ActivityMainBinding;
+import com.example.graphsampleapp.utilities.TYPE;
 import com.example.graphsampleapp.utilities.Utility;
-import com.example.graphsampleapp.views.fragments.StepsFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,18 +17,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        Utility.decorateGraph(binding);
+        Utility.updateGraph(binding, TYPE.DAY);
 
-        Utility.updateFragment(this, new StepsFragment());
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.options,menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        return MenuItemListener.itemListener(item,this);
+        binding.dayBtn.setOnClickListener(v -> Utility.updateGraph(binding, TYPE.DAY));
+        binding.weekBtn.setOnClickListener(v -> Utility.updateGraph(binding, TYPE.WEEK));
+        binding.monthBtn.setOnClickListener(v -> Utility.updateGraph(binding, TYPE.MONTH));
     }
 }
