@@ -1,7 +1,5 @@
 package com.example.graphsampleapp.utilities;
 
-import android.graphics.Color;
-
 import com.example.graphsampleapp.databinding.ActivityMainBinding;
 import com.example.graphsampleapp.repositories.DataProvider;
 import com.github.mikephil.charting.charts.BarChart;

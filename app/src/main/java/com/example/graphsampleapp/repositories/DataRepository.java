@@ -258,6 +258,7 @@ public class DataRepository {
         String labelValue = getCategoryLabel(category, data[0]);
         BarDataSet dataSet = new BarDataSet(barEntries, labelValue);
         dataSet.setColors(thisColors);
+        dataSet.setStackLabels(data);
         return new BarData(dataSet);
     }
 
@@ -300,6 +301,7 @@ public class DataRepository {
         String labelValue = getCategoryLabel(category, data[0]);
         BarDataSet dataSet = new BarDataSet(barEntries, labelValue);
         dataSet.setColors(thisColors);
+        dataSet.setStackLabels(data);
         return new BarData(dataSet);
     }
 
@@ -342,6 +344,7 @@ public class DataRepository {
         }
         String labelValue = getCategoryLabel(category, data[0]);
         BarDataSet dataSet = new BarDataSet(barEntries, labelValue);
+        dataSet.setStackLabels(data);
         dataSet.setColor(Color.RED);
         return new BarData(dataSet);
     }
@@ -369,10 +372,8 @@ public class DataRepository {
         }
         String labelValue = getCategoryLabel(category, data);
         LineDataSet dataSet = new LineDataSet(lineEntries, labelValue);
-        ArrayList<ILineDataSet> dataSets = new ArrayList<>();
-        dataSets.add(dataSet);
         dataSet.setColor(thisColor);
-        return new LineData(dataSets);
+        return new LineData(dataSet);
     }
 
     public LineData getWeeklyLineGraphData(String category, String data, int thisColor) {
@@ -416,10 +417,8 @@ public class DataRepository {
         }
         String labelValue = getCategoryLabel(category, data);
         LineDataSet dataSet = new LineDataSet(lineEntries, labelValue);
-        ArrayList<ILineDataSet> dataSets = new ArrayList<>();
-        dataSets.add(dataSet);
         dataSet.setColor(thisColor);
-        return new LineData(dataSets);
+        return new LineData(dataSet);
     }
 
     public LineData getMonthlyLineGraphData(String category, String data, int thisColor) {
@@ -463,10 +462,8 @@ public class DataRepository {
         }
         String labelValue = getCategoryLabel(category, data);
         LineDataSet dataSet = new LineDataSet(lineEntries, labelValue);
-        ArrayList<ILineDataSet> dataSets = new ArrayList<>();
-        dataSets.add(dataSet);
         dataSet.setColor(thisColor);
-        return new LineData(dataSets);
+        return new LineData(dataSet);
     }
 
     public String getCategoryLabel(String category, String data) {
