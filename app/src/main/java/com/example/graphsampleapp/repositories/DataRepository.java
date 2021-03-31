@@ -365,7 +365,7 @@ public class DataRepository {
                 return String.format(Locale.ENGLISH,"%.1f", value);
             }
         }); dataSet.setStackLabels(data);
-        dataSet.setColor(Color.RED);
+        dataSet.setColors(thisColors);
         return new BarData(dataSet);
     }
 
