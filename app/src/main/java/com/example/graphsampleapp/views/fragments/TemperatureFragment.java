@@ -34,7 +34,6 @@ public class TemperatureFragment extends Fragment {
         DataProvider dataProvider = new DataProvider();
 
         Utility.decorateLineGraph(binding.tempChart);
-        Utility.decorateLineGraph(binding.tempChart);
         Utility.updateLineGraph(binding.tempChart, dataProvider.getDailyTemperature());
 
         binding.weekBtn.setOnClickListener(v -> Utility.updateLineGraph(binding.tempChart, dataProvider.getWeeklyTemperature()));

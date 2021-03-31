@@ -35,7 +35,6 @@ public class BloodOxygenFragment extends Fragment {
         Utility.decorateGraph(binding.boChart);
         Utility.decorateGraph(binding.boChart);
         Utility.updateGraph(binding.boChart, dataProvider.getDailyBloodOxygen());
-
         binding.weekBtn.setOnClickListener(v -> Utility.updateGraph(binding.boChart, dataProvider.getWeeklyBloodOxygen()));
         binding.dayBtn.setOnClickListener(v -> Utility.updateGraph(binding.boChart, dataProvider.getDailyBloodOxygen()));
         binding.monthBtn.setOnClickListener(v -> Utility.updateGraph(binding.boChart, dataProvider.getMonthlyBloodOxygen()));

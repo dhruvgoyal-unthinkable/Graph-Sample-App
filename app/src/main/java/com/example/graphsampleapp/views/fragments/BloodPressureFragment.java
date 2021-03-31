@@ -30,8 +30,6 @@ public class BloodPressureFragment extends Fragment {
         DataProvider dataProvider = new DataProvider();
 
         Utility.decorateGraph(binding.bloodPressureChart);
-        Utility.decorateGraph(binding.bloodPressureChart);
-        Utility.updateGraph(binding.bloodPressureChart, dataProvider.getDailyCalories());
         Utility.updateGraph(binding.bloodPressureChart, dataProvider.getDailyBloodPressure());
         binding.dayBtn.setOnClickListener(v -> Utility.updateGraph(binding.bloodPressureChart, dataProvider.getDailyBloodPressure()));
         binding.weekBtn.setOnClickListener(v -> Utility.updateGraph(binding.bloodPressureChart, dataProvider.getWeeklyBloodPressure()));

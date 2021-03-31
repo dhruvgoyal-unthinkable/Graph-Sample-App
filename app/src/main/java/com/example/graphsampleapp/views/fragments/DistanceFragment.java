@@ -32,7 +32,6 @@ public class DistanceFragment extends Fragment {
         DataProvider dataProvider = new DataProvider();
 
         Utility.decorateGraph(binding.distanceChart);
-        Utility.decorateGraph(binding.distanceChart);
         Utility.updateGraph(binding.distanceChart, dataProvider.getDailyDistance());
 
         binding.dayBtn.setOnClickListener(v -> Utility.updateGraph(binding.distanceChart, dataProvider.getDailyDistance()));

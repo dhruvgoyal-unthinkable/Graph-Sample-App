@@ -26,7 +26,7 @@ public class DataProvider {
     }
 
     public BarData getMonthlySteps() {
-        return repository.getMonthlyData("smart_daily", "step");
+        return repository.getMonthlyData("smart_daily", new String[]{"step"});
     }
 
     public BarData getDailyDistance() {
@@ -38,7 +38,7 @@ public class DataProvider {
     }
 
     public BarData getMonthlyDistance() {
-        return repository.getMonthlyData("smart_daily", "distance");
+        return repository.getMonthlyData("smart_daily", new String[]{"distance"});
     }
 
     public BarData getDailyCalories() {
@@ -50,7 +50,7 @@ public class DataProvider {
     }
 
     public BarData getMonthlyCalories() {
-        return repository.getMonthlyData("smart_daily", "calories");
+        return repository.getMonthlyData("smart_daily", new String[]{"calories"});
     }
 
     public BarData getDailyBloodOxygen() {
@@ -62,7 +62,7 @@ public class DataProvider {
     }
 
     public BarData getMonthlyBloodOxygen() {
-        return repository.getMonthlyData("smart_bp", "spo2Data");
+        return repository.getMonthlyData("smart_bp", new String[]{"spo2Data"});
     }
 
     public LineData getDailyTemperature() {
@@ -86,8 +86,6 @@ public class DataProvider {
     }
 
     public BarData getMonthlyBloodPressure() {
-        List<IBarDataSet> dataSet = repository.getMonthlyData("smart_hrv", "highBP").getDataSets();
-        dataSet.addAll(repository.getMonthlyData("smart_hrv", "lowBP").getDataSets());
-        return new BarData(dataSet);
+        return repository.getMonthlyData("smart_hrv", new String[]{"highBP", "lowBP"});
     }
 }

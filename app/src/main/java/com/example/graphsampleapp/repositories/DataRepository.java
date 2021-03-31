@@ -262,7 +262,6 @@ public class DataRepository {
         int[] thisColors = new int[data.length];
 
         try {
-            int total = 0;
             int pos = 52; ///1 year = 52 week
             JSONArray dailyDetails = (JSONArray) details.get(category);
             float[] values = new float[data.length];
@@ -271,14 +270,14 @@ public class DataRepository {
                 JSONObject detail = (JSONObject) dailyDetails.get(i);
                 if (thisDate.compareTo(detail.getString("date")) < 6) {
                     for (int j = 0; j < data.length; j++) {
-                        values[j] += Float.parseFloat(detail.getString(data[j]))/7;
+                        values[j] += Float.parseFloat(detail.getString(data[j])) / 7;
                         thisColors[j] = colors[j];
                     }
                 } else {
                     barEntries.add(new BarEntry(pos--, values));
                     thisDate = detail.getString("date");
                     for (int j = 0; j < data.length; j++) {
-                        values[j] = Float.parseFloat(detail.getString(data[j]))/7;
+                        values[j] = Float.parseFloat(detail.getString(data[j])) / 7;
                     }
                 }
             }
@@ -292,26 +291,34 @@ public class DataRepository {
     }
 
 
-    public BarData getMonthlyData(String category, String data) {
+    public BarData getMonthlyData(String category, String[] data) {
         ArrayList<BarEntry> barEntries = new ArrayList<>();
         SimpleDateFormat currentDate = new SimpleDateFormat("yyyy.MM.dd", Locale.ENGLISH);
         Date todayDate = new Date();
+        int[] thisColors = new int[data.length];
+
         String thisMonth = currentDate.format(todayDate).split("\\.")[1];
         try {
-            int total = 0;
+            float[] values = new float[data.length];
+            Arrays.fill(values, 0.0f);
             int pos = 12; ///1 year = 12 months
             JSONArray dailyDetails = (JSONArray) details.get(category);
             for (int i = 0; i < dailyDetails.length(); i++) {
                 JSONObject detail = (JSONObject) dailyDetails.get(i);
-                if (thisMonth.equals(detail.getString("date").split("\\.")[1]))
-                    total += detail.getInt(data);
-                else {
-                    barEntries.add(new BarEntry(pos--, (float) total / 30));
+                if (thisMonth.equals(detail.getString("date").split("\\.")[1])) {
+                    for (int j = 0; j < data.length; j++) {
+                        values[j] += Float.parseFloat(detail.getString(data[j])) / 30;
+                        thisColors[j] = colors[j];
+                    }
+                } else {
+                    barEntries.add(new BarEntry(pos--, values));
                     thisMonth = detail.getString("date").split("\\.")[1];
-                    total = detail.getInt(data);
+                    for (int j = 0; j < data.length; j++) {
+                        values[j] = Float.parseFloat(detail.getString(data[j])) / 7;
+                    }
                 }
             }
-            barEntries.add(new BarEntry(pos, (float) total / 30));
+            barEntries.add(new BarEntry(pos, values));
         } catch (JSONException e) {
             e.printStackTrace();
         }

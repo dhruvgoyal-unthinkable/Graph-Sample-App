@@ -31,7 +31,6 @@ public class CaloriesFragment extends Fragment {
         DataProvider dataProvider = new DataProvider();
 
         Utility.decorateGraph(binding.caloriesChart);
-        Utility.decorateGraph(binding.caloriesChart);
         Utility.updateGraph(binding.caloriesChart, dataProvider.getDailyCalories());
 
         binding.dayBtn.setOnClickListener(v -> Utility.updateGraph(binding.caloriesChart, dataProvider.getDailyCalories()));

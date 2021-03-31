@@ -34,7 +34,6 @@ public class StepsFragment extends Fragment {
         DataProvider dataProvider = new DataProvider();
 
         Utility.decorateGraph(binding.stepsChart);
-        Utility.decorateGraph(binding.stepsChart);
         Utility.updateGraph(binding.stepsChart, dataProvider.getDailySteps());
 
         binding.weekBtn.setOnClickListener(v -> Utility.updateGraph(binding.stepsChart, dataProvider.getWeeklySteps()));
