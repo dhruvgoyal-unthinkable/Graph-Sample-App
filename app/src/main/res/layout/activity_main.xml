@@ -11,6 +11,40 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/dayBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Day"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/weekBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:text="Week"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/monthBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:layout_marginRight="5dp"
+                android:text="Month"
+                android:textAllCaps="false" />
+        </LinearLayout>
+
         <com.github.mikephil.charting.charts.BarChart
             android:id="@+id/stepsChart"
             android:layout_width="match_parent"
@@ -52,37 +86,6 @@
             android:layout_height="300dp"
             android:layout_marginBottom="10dp" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="50dp"
-            android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/dayBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Day"
-                android:textAllCaps="false" />
-
-            <Button
-                android:id="@+id/weekBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
-                android:text="Week"
-                android:textAllCaps="false" />
-
-            <Button
-                android:id="@+id/monthBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="5dp"
-                android:layout_marginRight="5dp"
-                android:text="Month"
-                android:textAllCaps="false" />
-        </LinearLayout>
     </LinearLayout>
 </ScrollView>

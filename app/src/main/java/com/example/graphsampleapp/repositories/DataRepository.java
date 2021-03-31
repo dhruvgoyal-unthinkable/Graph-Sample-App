@@ -235,21 +235,33 @@ public class DataRepository {
         int[] thisColors = new int[data.length];
         try {
             JSONArray dailyDetails = (JSONArray) details.get(category);
-
-            for (int i = 0; i < dailyDetails.length(); i++) {
-                JSONObject detail = (JSONObject) dailyDetails.get(i);
-                float[] values = new float[data.length];
-                for (int j = 0; j < data.length; j++) {
-                    values[j] = Float.parseFloat(detail.getString(data[j]));
-                    thisColors[j] = colors[j];
+            if(data[0].equalsIgnoreCase("distance")){
+                for (int i = 0; i < dailyDetails.length(); i++) {
+                    JSONObject detail = (JSONObject) dailyDetails.get(i);
+                    float[] values = new float[data.length];
+                    for (int j = 0; j < data.length; j++) {
+                        values[j] = 0.621f *Float.parseFloat(detail.getString(data[j]));
+                        thisColors[j] = colors[j];
+                    }
+                    barEntries.add(new BarEntry(dailyDetails.length() - 1 - i, values));
                 }
-                barEntries.add(new BarEntry(dailyDetails.length() - 1 - i, values));
+            }
+            else{
+                for (int i = 0; i < dailyDetails.length(); i++) {
+                    JSONObject detail = (JSONObject) dailyDetails.get(i);
+                    float[] values = new float[data.length];
+                    for (int j = 0; j < data.length; j++) {
+                        values[j] = Float.parseFloat(detail.getString(data[j]));
+                        thisColors[j] = colors[j];
+                    }
+                    barEntries.add(new BarEntry(dailyDetails.length() - 1 - i, values));
+                }
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        BarDataSet dataSet = new BarDataSet(barEntries, "");
+        String labelValue = getCategoryLabel(category, data[0]);
+        BarDataSet dataSet = new BarDataSet(barEntries, labelValue);
         dataSet.setColors(thisColors);
         return new BarData(dataSet);
     }
@@ -269,10 +281,19 @@ public class DataRepository {
             for (int i = 0; i < dailyDetails.length(); i++) {
                 JSONObject detail = (JSONObject) dailyDetails.get(i);
                 if (thisDate.compareTo(detail.getString("date")) < 6) {
-                    for (int j = 0; j < data.length; j++) {
-                        values[j] += Float.parseFloat(detail.getString(data[j])) / 7;
-                        thisColors[j] = colors[j];
+                    if(data[0].equalsIgnoreCase("distance")){
+                        for (int j = 0; j < data.length; j++) {
+                            values[j] += 0.621f * Float.parseFloat(detail.getString(data[j])) / 7;
+                            thisColors[j] = colors[j];
+                        }
                     }
+                    else{
+                        for (int j = 0; j < data.length; j++) {
+                            values[j] += Float.parseFloat(detail.getString(data[j])) / 7;
+                            thisColors[j] = colors[j];
+                        }
+                    }
+
                 } else {
                     barEntries.add(new BarEntry(pos--, values));
                     thisDate = detail.getString("date");
@@ -285,7 +306,8 @@ public class DataRepository {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        BarDataSet dataSet = new BarDataSet(barEntries, "");
+        String labelValue = getCategoryLabel(category, data[0]);
+        BarDataSet dataSet = new BarDataSet(barEntries, labelValue);
         dataSet.setColors(thisColors);
         return new BarData(dataSet);
     }
@@ -306,10 +328,19 @@ public class DataRepository {
             for (int i = 0; i < dailyDetails.length(); i++) {
                 JSONObject detail = (JSONObject) dailyDetails.get(i);
                 if (thisMonth.equals(detail.getString("date").split("\\.")[1])) {
-                    for (int j = 0; j < data.length; j++) {
-                        values[j] += Float.parseFloat(detail.getString(data[j])) / 30;
-                        thisColors[j] = colors[j];
+                    if(data[0].equalsIgnoreCase("distance")){
+                        for (int j = 0; j < data.length; j++) {
+                            values[j] += 0.621f * Float.parseFloat(detail.getString(data[j])) / 30;
+                            thisColors[j] = colors[j];
+                        }
                     }
+                    else{
+                        for (int j = 0; j < data.length; j++) {
+                            values[j] += Float.parseFloat(detail.getString(data[j])) / 30;
+                            thisColors[j] = colors[j];
+                        }
+                    }
+
                 } else {
                     barEntries.add(new BarEntry(pos--, values));
                     thisMonth = detail.getString("date").split("\\.")[1];
@@ -322,7 +353,8 @@ public class DataRepository {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        BarDataSet dataSet = new BarDataSet(barEntries, "");
+        String labelValue = getCategoryLabel(category, data[0]);
+        BarDataSet dataSet = new BarDataSet(barEntries, labelValue);
         dataSet.setColor(Color.RED);
         return new BarData(dataSet);
     }
@@ -332,15 +364,25 @@ public class DataRepository {
 
         try {
             JSONArray dailyDetails = (JSONArray) details.get(category);
-            for (int i = 0; i < dailyDetails.length(); i++) {
-                JSONObject detail = (JSONObject) dailyDetails.get(i);
-                lineEntries.add(new Entry(i, Float.parseFloat(detail.getString(data))));
+            if (data.equalsIgnoreCase("temperature")){
+                for (int i = 0; i < dailyDetails.length(); i++) {
+                    JSONObject detail = (JSONObject) dailyDetails.get(i);
+                    float celsius = Float.parseFloat(detail.getString(data));
+                    float farenheit = ((celsius*9)/5)+32;
+                    lineEntries.add(new Entry(i, farenheit));
+                }
+            }
+            else{
+                for (int i = 0; i < dailyDetails.length(); i++) {
+                    JSONObject detail = (JSONObject) dailyDetails.get(i);
+                    lineEntries.add(new Entry(i, Float.parseFloat(detail.getString(data))));
+                }
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        LineDataSet dataSet = new LineDataSet(lineEntries, "");
+        String labelValue = getCategoryLabel(category, data);
+        LineDataSet dataSet = new LineDataSet(lineEntries, labelValue);
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
         dataSets.add(dataSet);
         dataSet.setColor(Color.BLUE);
@@ -353,24 +395,44 @@ public class DataRepository {
         Date todayDate = new Date();
         String thisDate = currentDate.format(todayDate);
         try {
-            int total = 0;
+            float total = 0;
             int pos = 52; ///1 year = 52 week
             JSONArray dailyDetails = (JSONArray) details.get(category);
-            for (int i = 0; i < dailyDetails.length(); i++) {
-                JSONObject detail = (JSONObject) dailyDetails.get(i);
-                if (thisDate.compareTo(detail.getString("date")) < 6)
-                    total += detail.getInt(data);
-                else {
-                    lineEntries.add(new Entry(pos--, (float) (total / 7)));
-                    thisDate = detail.getString("date");
-                    total = detail.getInt(data);
+            if (data.equalsIgnoreCase("temperature")){
+                for (int i = 0; i < dailyDetails.length(); i++) {
+                    JSONObject detail = (JSONObject) dailyDetails.get(i);
+                    if (thisDate.compareTo(detail.getString("date")) < 6){
+                        float celsius = Float.parseFloat(detail.getString(data));
+                        total += ((celsius*9)/5)+32;
+                    }
+
+                    else {
+                        lineEntries.add(new Entry(pos--, (float) (total / 7)));
+                        thisDate = detail.getString("date");
+                        float celsius = Float.parseFloat(detail.getString(data));
+                        total = ((celsius*9)/5)+32;
+                    }
                 }
             }
-            lineEntries.add(new Entry(pos, (int) (total / 7)));
+            else{
+                for (int i = 0; i < dailyDetails.length(); i++) {
+                    JSONObject detail = (JSONObject) dailyDetails.get(i);
+                    if (thisDate.compareTo(detail.getString("date")) < 6)
+                        total += Float.parseFloat(detail.getString(data));
+                    else {
+                        lineEntries.add(new Entry(pos--, (float) (total / 7)));
+                        thisDate = detail.getString("date");
+                        total = Float.parseFloat(detail.getString(data));
+                    }
+                }
+            }
+
+            lineEntries.add(new Entry(pos, (float) (total / 7)));
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        LineDataSet dataSet = new LineDataSet(lineEntries, "");
+        String labelValue = getCategoryLabel(category, data);
+        LineDataSet dataSet = new LineDataSet(lineEntries, labelValue);
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
         dataSets.add(dataSet);
         dataSet.setColor(Color.BLUE);
@@ -383,27 +445,74 @@ public class DataRepository {
         Date todayDate = new Date();
         String thisMonth = currentDate.format(todayDate).split("\\.")[1];
         try {
-            int total = 0;
+            float total = 0;
             int pos = 12; ///1 year = 12 months
             JSONArray dailyDetails = (JSONArray) details.get(category);
-            for (int i = 0; i < dailyDetails.length(); i++) {
-                JSONObject detail = (JSONObject) dailyDetails.get(i);
-                if (thisMonth.equals(detail.getString("date").split("\\.")[1]))
-                    total += detail.getInt(data);
-                else {
-                    lineEntries.add(new Entry(pos--, (float) (total / 30)));
-                    thisMonth = detail.getString("date").split("\\.")[1];
-                    total = detail.getInt(data);
+            if (data.equalsIgnoreCase("temperature")){
+                for (int i = 0; i < dailyDetails.length(); i++) {
+                    JSONObject detail = (JSONObject) dailyDetails.get(i);
+                    if (thisMonth.equals(detail.getString("date").split("\\.")[1])){
+                        float celsius = Float.parseFloat(detail.getString(data));
+                        total += ((celsius*9)/5)+32;
+                    }
+
+                    else {
+                        lineEntries.add(new Entry(pos--, (float) (total / 30)));
+                        thisMonth = detail.getString("date").split("\\.")[1];
+                        float celsius = Float.parseFloat(detail.getString(data));
+                        total = ((celsius*9)/5)+32;
+                    }
                 }
             }
-            lineEntries.add(new Entry(pos, (int) (total / 7)));
+            else{
+                for (int i = 0; i < dailyDetails.length(); i++) {
+                    JSONObject detail = (JSONObject) dailyDetails.get(i);
+                    if (thisMonth.equals(detail.getString("date").split("\\.")[1]))
+                        total += Float.parseFloat(detail.getString(data));
+                    else {
+                        lineEntries.add(new Entry(pos--, (float) (total / 30)));
+                        thisMonth = detail.getString("date").split("\\.")[1];
+                        total = Float.parseFloat(detail.getString(data));
+                    }
+                }
+            }
+
+            lineEntries.add(new Entry(pos, (float) (total / 7)));
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        LineDataSet dataSet = new LineDataSet(lineEntries, "");
+        String labelValue = getCategoryLabel(category, data);
+        LineDataSet dataSet = new LineDataSet(lineEntries, labelValue);
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
         dataSets.add(dataSet);
         dataSet.setColor(Color.BLUE);
         return new LineData(dataSets);
+    }
+    public String getCategoryLabel(String category,String data){
+        String label = "";
+        if(category!=null){
+            if(category.equalsIgnoreCase("smart_daily")){
+                if(data.equalsIgnoreCase("distance")){
+                    label = "in Miles";
+                }
+                else if (data.equalsIgnoreCase("calories")){
+                    label = "in Kcal";
+                }
+                else{
+                    label = "";
+                }
+            }else if (category.equalsIgnoreCase("smart_bp")){
+                label = "in %";
+
+            }else if (category.equalsIgnoreCase("smart_temp")){
+                label = "in Farenheit";
+
+            }else if (category.equalsIgnoreCase("smart_hrv")){
+                if(data.equalsIgnoreCase("highBP")||data.equalsIgnoreCase("lowBP")){
+                    label = "in mmhg";
+                }
+            }
+        }
+        return label;
     }
 }
