@@ -1,5 +1,7 @@
 package com.example.graphsampleapp.utilities;
 
+import android.graphics.Color;
+
 import com.example.graphsampleapp.databinding.ActivityMainBinding;
 import com.example.graphsampleapp.repositories.DataProvider;
 import com.github.mikephil.charting.charts.BarChart;
@@ -8,7 +10,6 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.LineData;
 
 public class Utility {
-
     public static void updateGraph(ActivityMainBinding binding, String type) {
         DataProvider provider = new DataProvider();
 
