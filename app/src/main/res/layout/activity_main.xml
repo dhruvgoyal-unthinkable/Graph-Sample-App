@@ -45,41 +45,85 @@
                 android:textAllCaps="false" />
         </LinearLayout>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/steps"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
         <com.github.mikephil.charting.charts.BarChart
             android:id="@+id/stepsChart"
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:layout_marginBottom="10dp" />
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/distance"
+            android:textSize="15sp"
+            android:textColor="@color/black"
+            android:layout_gravity="center"/>
         <com.github.mikephil.charting.charts.BarChart
             android:id="@+id/distanceChart"
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:layout_marginBottom="10dp" />
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/calories"
+            android:textSize="15sp"
+            android:textColor="@color/black"
+            android:layout_gravity="center"/>
         <com.github.mikephil.charting.charts.BarChart
             android:id="@+id/caloriesChart"
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:layout_marginBottom="10dp" />
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/blood_pressure"
+            android:textSize="15sp"
+            android:textColor="@color/black"
+            android:layout_gravity="center"/>
         <com.github.mikephil.charting.charts.BarChart
             android:id="@+id/bloodPressureChart"
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:layout_marginBottom="10dp" />
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/blood_oxygen"
+            android:textSize="15sp"
+            android:textColor="@color/black"
+            android:layout_gravity="center"/>
         <com.github.mikephil.charting.charts.BarChart
             android:id="@+id/bloodOxygenChart"
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:layout_marginBottom="10dp" />
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/temp"
+            android:textSize="15sp"
+            android:textColor="@color/black"
+            android:layout_gravity="center"/>
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/tempChart"
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:layout_marginBottom="10dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/heart_rate"
+            android:textSize="15sp"
+            android:textColor="@color/black"
+            android:layout_gravity="center"/>
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/heartRateChart"
             android:layout_width="match_parent"

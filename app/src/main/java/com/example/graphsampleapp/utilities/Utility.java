@@ -48,11 +48,13 @@ public class Utility {
     private static void updateGraph(BarChart barChart, BarData data) {
         barChart.setData(data);
         barChart.invalidate();
+        data.setHighlightEnabled(false);
     }
 
     private static void updateLineGraph(LineChart lineChart, LineData data) {
         lineChart.setData(data);
         lineChart.invalidate();
+        data.setHighlightEnabled(false);
     }
 
     public static void decorateGraph(ActivityMainBinding binding) {
