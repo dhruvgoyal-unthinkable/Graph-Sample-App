@@ -24,13 +24,34 @@ public class Utility {
                 binding.dayBtn.setBackgroundColor(Color.parseColor("#1EB4FD"));
                 binding.weekBtn.setBackgroundColor(Color.parseColor("#FFA93C"));
                 binding.monthBtn.setBackgroundColor(Color.parseColor("#FFA93C"));
-                BarData data = provider.getDailySteps();
+
+                Custom custom = provider.getDailySteps();
+                BarData data = custom.data;
                 updateGraph(binding.stepsChart, data);
-                updateLabels(binding.stepsChart, data.getEntryCount());
-                updateGraph(binding.distanceChart, provider.getDailyDistance());
-                updateGraph(binding.caloriesChart, provider.getDailyCalories());
-                updateGraph(binding.bloodPressureChart, provider.getDailyBloodPressure());
-                updateGraph(binding.bloodOxygenChart, provider.getDailyBloodOxygen());
+                updateLabels(binding.stepsChart, data.getEntryCount(), custom.labels);
+
+                custom = provider.getDailyDistance();
+                data = custom.data;
+                updateGraph(binding.distanceChart, data);
+                updateLabels(binding.distanceChart, data.getEntryCount(), custom.labels);
+
+                custom = provider.getDailyCalories();
+                data = custom.data;
+                updateGraph(binding.caloriesChart, data);
+                updateLabels(binding.caloriesChart, data.getEntryCount(), custom.labels);
+
+                custom = provider.getDailyBloodPressure();
+                data = custom.data;
+                updateGraph(binding.bloodPressureChart, data);
+                updateLabels(binding.bloodPressureChart, data.getEntryCount(), custom.labels);
+
+
+                custom = provider.getDailyBloodOxygen();
+                data = custom.data;
+                updateGraph(binding.bloodOxygenChart, data);
+                updateLabels(binding.bloodOxygenChart, data.getEntryCount(), custom.labels);
+
+
                 updateLineGraph(binding.tempChart, provider.getDailyTemperature());
                 updateLineGraph(binding.heartRateChart, provider.getDailyHearRate());
                 break;
@@ -40,7 +61,6 @@ public class Utility {
                 binding.weekBtn.setBackgroundColor(Color.parseColor("#1EB4FD"));
                 binding.monthBtn.setBackgroundColor(Color.parseColor("#FFA93C"));
                 BarData data = provider.getWeeklySteps();
-                updateLabels(binding.stepsChart, data.getEntryCount());
                 updateGraph(binding.stepsChart, data);
                 updateGraph(binding.distanceChart, provider.getWeeklyDistance());
                 updateGraph(binding.caloriesChart, provider.getWeeklyCalories());
@@ -109,13 +129,10 @@ public class Utility {
         lineChart.setDoubleTapToZoomEnabled(false);
     }
 
-    public static void updateLabels(BarChart chart, int count) {
+    public static void updateLabels(BarChart chart, int count, String[] labels) {
         chart.getXAxis().setLabelCount(count);
-        chart.getXAxis().setValueFormatter(new ValueFormatter() {
-            @Override
-            public String getFormattedValue(float value) {
-                return "Monday";
-            }
-        });
+        IndexAxisValueFormatter formatter = new IndexAxisValueFormatter();
+        formatter.setValues(labels);
+        chart.getXAxis().setValueFormatter(formatter);
     }
 }

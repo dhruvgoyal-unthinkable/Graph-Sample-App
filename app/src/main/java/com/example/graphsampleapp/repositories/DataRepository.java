@@ -1,5 +1,6 @@
 package com.example.graphsampleapp.repositories;
 
+import com.example.graphsampleapp.utilities.Custom;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -12,6 +13,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -225,10 +227,13 @@ public class DataRepository {
     }
 
 
-    public BarData getDailyData(String category, String[] data, int[] thisColors) {
+    public Custom getDailyData(String category, String[] data, int[] thisColors) {
         ArrayList<BarEntry> barEntries = new ArrayList<>();
+        String[] labels = new String[0];
         try {
             JSONArray dailyDetails = (JSONArray) details.get(category);
+            labels = new String[dailyDetails.length()];
+            SimpleDateFormat currentDate = new SimpleDateFormat("yyyy.MM.dd", Locale.ENGLISH);
             if (data[0].equalsIgnoreCase("distance")) {
                 for (int i = 0; i < dailyDetails.length(); i++) {
                     JSONObject detail = (JSONObject) dailyDetails.get(i);
@@ -236,6 +241,10 @@ public class DataRepository {
                     for (int j = 0; j < data.length; j++) {
                         values[j] = 0.621f * Float.parseFloat(detail.getString(data[j]));
                     }
+
+                    Date date = currentDate.parse(detail.getString("date"));
+                    String dayOfWeek = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(date);
+                    labels[i] = dayOfWeek.substring(0, 3);
                     barEntries.add(new BarEntry(dailyDetails.length() - 1 - i, values, ""));
                 }
             } else {
@@ -245,10 +254,15 @@ public class DataRepository {
                     for (int j = 0; j < data.length; j++) {
                         values[j] = Float.parseFloat(detail.getString(data[j]));
                     }
+                    Date date = currentDate.parse(detail.getString("date"));
+                    String dayOfWeek = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(date);
+                    labels[i] = dayOfWeek.substring(0, 3);
                     barEntries.add(new BarEntry(dailyDetails.length() - 1 - i, values));
                 }
             }
         } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
             e.printStackTrace();
         }
         String labelValue = getCategoryLabel(category, data[0]);
@@ -261,7 +275,7 @@ public class DataRepository {
         });
         dataSet.setColors(thisColors);
         dataSet.setStackLabels(data);
-        return new BarData(dataSet);
+        return new Custom(new BarData(dataSet), labels);
     }
 
     public BarData getWeeklyData(String category, String[] data, int[] thisColors) {
@@ -291,11 +305,11 @@ public class DataRepository {
                 } else {
                     barEntries.add(new BarEntry(pos--, values));
                     thisDate = detail.getString("date");
-                    if (data[0].equalsIgnoreCase("distance")){
+                    if (data[0].equalsIgnoreCase("distance")) {
                         for (int j = 0; j < data.length; j++) {
                             values[j] = 0.621f * Float.parseFloat(detail.getString(data[j])) / 7;
                         }
-                    }else{
+                    } else {
                         for (int j = 0; j < data.length; j++) {
                             values[j] = Float.parseFloat(detail.getString(data[j])) / 7;
                         }
@@ -348,11 +362,11 @@ public class DataRepository {
                 } else {
                     barEntries.add(new BarEntry(pos--, values));
                     thisMonth = detail.getString("date").split("\\.")[1];
-                    if (data[0].equalsIgnoreCase("distance")){
+                    if (data[0].equalsIgnoreCase("distance")) {
                         for (int j = 0; j < data.length; j++) {
                             values[j] = 0.621f * Float.parseFloat(detail.getString(data[j])) / 7;
                         }
-                    }else{
+                    } else {
                         for (int j = 0; j < data.length; j++) {
                             values[j] = Float.parseFloat(detail.getString(data[j])) / 7;
                         }
