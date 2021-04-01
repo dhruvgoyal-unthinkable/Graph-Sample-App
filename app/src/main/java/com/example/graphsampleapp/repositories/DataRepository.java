@@ -1,18 +1,12 @@
 package com.example.graphsampleapp.repositories;
 
-import android.graphics.Color;
-import android.util.Log;
-
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
-import com.github.mikephil.charting.utils.ViewPortHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,7 +15,6 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -243,8 +236,7 @@ public class DataRepository {
                     for (int j = 0; j < data.length; j++) {
                         values[j] = 0.621f * Float.parseFloat(detail.getString(data[j]));
                     }
-
-                    barEntries.add(new BarEntry(dailyDetails.length() - 1 - i, values));
+                    barEntries.add(new BarEntry(dailyDetails.length() - 1 - i, values, ""));
                 }
             } else {
                 for (int i = 0; i < dailyDetails.length(); i++) {
@@ -264,7 +256,7 @@ public class DataRepository {
         dataSet.setValueFormatter(new ValueFormatter() {
             @Override
             public String getFormattedValue(float value) {
-                return String.format(Locale.ENGLISH,"%.1f", value);
+                return String.format(Locale.ENGLISH, "%.1f", value);
             }
         });
         dataSet.setColors(thisColors);
@@ -314,9 +306,10 @@ public class DataRepository {
         dataSet.setValueFormatter(new ValueFormatter() {
             @Override
             public String getFormattedValue(float value) {
-                return String.format(Locale.ENGLISH,"%.1f", value);
+                return String.format(Locale.ENGLISH, "%.1f", value);
             }
-        }); dataSet.setStackLabels(data);
+        });
+        dataSet.setStackLabels(data);
         return new BarData(dataSet);
     }
 
@@ -362,9 +355,10 @@ public class DataRepository {
         dataSet.setValueFormatter(new ValueFormatter() {
             @Override
             public String getFormattedValue(float value) {
-                return String.format(Locale.ENGLISH,"%.1f", value);
+                return String.format(Locale.ENGLISH, "%.1f", value);
             }
-        }); dataSet.setStackLabels(data);
+        });
+        dataSet.setStackLabels(data);
         dataSet.setColors(thisColors);
         return new BarData(dataSet);
     }
@@ -395,9 +389,10 @@ public class DataRepository {
         dataSet.setValueFormatter(new ValueFormatter() {
             @Override
             public String getFormattedValue(float value) {
-                return String.format(Locale.ENGLISH,"%.1f", value);
+                return String.format(Locale.ENGLISH, "%.1f", value);
             }
-        });dataSet.setColor(thisColor);
+        });
+        dataSet.setColor(thisColor);
         return new LineData(dataSet);
     }
 
@@ -445,9 +440,10 @@ public class DataRepository {
         dataSet.setValueFormatter(new ValueFormatter() {
             @Override
             public String getFormattedValue(float value) {
-                return String.format(Locale.ENGLISH,"%.1f", value);
+                return String.format(Locale.ENGLISH, "%.1f", value);
             }
-        });dataSet.setColor(thisColor);
+        });
+        dataSet.setColor(thisColor);
         return new LineData(dataSet);
     }
 
@@ -495,7 +491,7 @@ public class DataRepository {
         dataSet.setValueFormatter(new ValueFormatter() {
             @Override
             public String getFormattedValue(float value) {
-                return String.format(Locale.ENGLISH,"%.1f", value);
+                return String.format(Locale.ENGLISH, "%.1f", value);
             }
         });
         dataSet.setColor(thisColor);
@@ -523,7 +519,7 @@ public class DataRepository {
                 if (data.equalsIgnoreCase("highBP") || data.equalsIgnoreCase("lowBP")) {
                     label = "in mmhg";
                 }
-                if(data.equalsIgnoreCase("heartRate")){
+                if (data.equalsIgnoreCase("heartRate")) {
                     label = "Heart Rate in Bpm";
                 }
             }

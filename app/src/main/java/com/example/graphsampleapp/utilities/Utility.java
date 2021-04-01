@@ -1,13 +1,19 @@
 package com.example.graphsampleapp.utilities;
 
 import android.graphics.Color;
+import android.util.Log;
 
 import com.example.graphsampleapp.databinding.ActivityMainBinding;
 import com.example.graphsampleapp.repositories.DataProvider;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 
 public class Utility {
     public static void updateGraph(ActivityMainBinding binding, String type) {
@@ -18,7 +24,9 @@ public class Utility {
                 binding.dayBtn.setBackgroundColor(Color.parseColor("#1EB4FD"));
                 binding.weekBtn.setBackgroundColor(Color.parseColor("#FFA93C"));
                 binding.monthBtn.setBackgroundColor(Color.parseColor("#FFA93C"));
-                updateGraph(binding.stepsChart, provider.getDailySteps());
+                BarData data = provider.getDailySteps();
+                updateGraph(binding.stepsChart, data);
+                updateLabels(binding.stepsChart, data.getEntryCount());
                 updateGraph(binding.distanceChart, provider.getDailyDistance());
                 updateGraph(binding.caloriesChart, provider.getDailyCalories());
                 updateGraph(binding.bloodPressureChart, provider.getDailyBloodPressure());
@@ -31,7 +39,9 @@ public class Utility {
                 binding.dayBtn.setBackgroundColor(Color.parseColor("#FFA93C"));
                 binding.weekBtn.setBackgroundColor(Color.parseColor("#1EB4FD"));
                 binding.monthBtn.setBackgroundColor(Color.parseColor("#FFA93C"));
-                updateGraph(binding.stepsChart, provider.getWeeklySteps());
+                BarData data = provider.getWeeklySteps();
+                updateLabels(binding.stepsChart, data.getEntryCount());
+                updateGraph(binding.stepsChart, data);
                 updateGraph(binding.distanceChart, provider.getWeeklyDistance());
                 updateGraph(binding.caloriesChart, provider.getWeeklyCalories());
                 updateGraph(binding.bloodPressureChart, provider.getWeeklyBloodPressure());
@@ -79,7 +89,10 @@ public class Utility {
     }
 
     private static void decorateGraph(BarChart barChart) {
-        barChart.getXAxis().setEnabled(false);
+        barChart.getXAxis().setDrawAxisLine(false);
+        barChart.getXAxis().setEnabled(true);
+        barChart.getXAxis().setDrawGridLines(false);
+        barChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE);
         barChart.getAxisLeft().setEnabled(false);
         barChart.getAxisRight().setEnabled(false);
         barChart.setDescription(null);
@@ -94,5 +107,15 @@ public class Utility {
         lineChart.setDescription(null);
         lineChart.setPinchZoom(false);
         lineChart.setDoubleTapToZoomEnabled(false);
+    }
+
+    public static void updateLabels(BarChart chart, int count) {
+        chart.getXAxis().setLabelCount(count);
+        chart.getXAxis().setValueFormatter(new ValueFormatter() {
+            @Override
+            public String getFormattedValue(float value) {
+                return "Monday";
+            }
+        });
     }
 }
