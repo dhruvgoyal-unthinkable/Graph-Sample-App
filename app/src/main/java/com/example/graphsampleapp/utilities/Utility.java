@@ -1,5 +1,7 @@
 package com.example.graphsampleapp.utilities;
 
+import android.graphics.Color;
+
 import com.example.graphsampleapp.databinding.ActivityMainBinding;
 import com.example.graphsampleapp.repositories.DataProvider;
 import com.github.mikephil.charting.charts.BarChart;
@@ -13,6 +15,9 @@ public class Utility {
 
         switch (type) {
             case TYPE.DAY: {
+                binding.dayBtn.setBackgroundColor(Color.parseColor("#1EB4FD"));
+                binding.weekBtn.setBackgroundColor(Color.parseColor("#FFA93C"));
+                binding.monthBtn.setBackgroundColor(Color.parseColor("#FFA93C"));
                 updateGraph(binding.stepsChart, provider.getDailySteps());
                 updateGraph(binding.distanceChart, provider.getDailyDistance());
                 updateGraph(binding.caloriesChart, provider.getDailyCalories());
@@ -23,6 +28,9 @@ public class Utility {
                 break;
             }
             case TYPE.WEEK: {
+                binding.dayBtn.setBackgroundColor(Color.parseColor("#FFA93C"));
+                binding.weekBtn.setBackgroundColor(Color.parseColor("#1EB4FD"));
+                binding.monthBtn.setBackgroundColor(Color.parseColor("#FFA93C"));
                 updateGraph(binding.stepsChart, provider.getWeeklySteps());
                 updateGraph(binding.distanceChart, provider.getWeeklyDistance());
                 updateGraph(binding.caloriesChart, provider.getWeeklyCalories());
@@ -33,6 +41,9 @@ public class Utility {
                 break;
             }
             case TYPE.MONTH: {
+                binding.dayBtn.setBackgroundColor(Color.parseColor("#FFA93C"));
+                binding.weekBtn.setBackgroundColor(Color.parseColor("#FFA93C"));
+                binding.monthBtn.setBackgroundColor(Color.parseColor("#1EB4FD"));
                 updateGraph(binding.stepsChart, provider.getMonthlySteps());
                 updateGraph(binding.distanceChart, provider.getMonthlyDistance());
                 updateGraph(binding.caloriesChart, provider.getMonthlyCalories());
