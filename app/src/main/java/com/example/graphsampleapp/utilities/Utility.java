@@ -74,11 +74,32 @@ public class Utility {
                 binding.dayBtn.setBackgroundColor(Color.parseColor("#FFA93C"));
                 binding.weekBtn.setBackgroundColor(Color.parseColor("#FFA93C"));
                 binding.monthBtn.setBackgroundColor(Color.parseColor("#1EB4FD"));
-                updateGraph(binding.stepsChart, provider.getMonthlySteps());
-                updateGraph(binding.distanceChart, provider.getMonthlyDistance());
-                updateGraph(binding.caloriesChart, provider.getMonthlyCalories());
-                updateGraph(binding.bloodPressureChart, provider.getMonthlyBloodPressure());
-                updateGraph(binding.bloodOxygenChart, provider.getMonthlyBloodOxygen());
+
+                Custom custom = provider.getMonthlySteps();
+                BarData data = custom.data;
+                updateGraph(binding.stepsChart, data);
+                updateLabels(binding.stepsChart, data.getEntryCount(), custom.labels);
+
+                custom = provider.getMonthlyDistance();
+                data = custom.data;
+                updateGraph(binding.distanceChart, data);
+                updateLabels(binding.distanceChart, data.getEntryCount(), custom.labels);
+
+                custom = provider.getMonthlyCalories();
+                data = custom.data;
+                updateGraph(binding.caloriesChart, data);
+                updateLabels(binding.caloriesChart, data.getEntryCount(), custom.labels);
+
+                custom = provider.getDailyBloodPressure();
+                data = custom.data;
+                updateGraph(binding.bloodPressureChart, data);
+                updateLabels(binding.bloodPressureChart, data.getEntryCount(), custom.labels);
+
+                custom = provider.getMonthlyBloodOxygen();
+                data = custom.data;
+                updateGraph(binding.bloodOxygenChart, data);
+                updateLabels(binding.bloodOxygenChart, data.getEntryCount(), custom.labels);
+
                 updateLineGraph(binding.tempChart, provider.getMonthlyTemperature());
                 updateLineGraph(binding.heartRateChart, provider.getMonthlyHearRate());
                 break;

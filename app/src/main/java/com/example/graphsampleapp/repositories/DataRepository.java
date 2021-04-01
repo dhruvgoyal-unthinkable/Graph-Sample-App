@@ -335,8 +335,9 @@ public class DataRepository {
     }
 
 
-    public BarData getMonthlyData(String category, String[] data, int[] thisColors) {
+    public Custom getMonthlyData(String category, String[] data, int[] thisColors) {
         ArrayList<BarEntry> barEntries = new ArrayList<>();
+        String[] labels = new String[0];
         SimpleDateFormat currentDate = new SimpleDateFormat("yyyy.MM.dd", Locale.ENGLISH);
         Date todayDate = new Date();
 
@@ -346,6 +347,7 @@ public class DataRepository {
             Arrays.fill(values, 0.0f);
             int pos = 12; ///1 year = 12 months
             JSONArray dailyDetails = (JSONArray) details.get(category);
+            labels = new String[dailyDetails.length()];
             for (int i = 0; i < dailyDetails.length(); i++) {
                 JSONObject detail = (JSONObject) dailyDetails.get(i);
                 if (thisMonth.equals(detail.getString("date").split("\\.")[1])) {
@@ -353,12 +355,13 @@ public class DataRepository {
                         for (int j = 0; j < data.length; j++) {
                             values[j] += 0.621f * Float.parseFloat(detail.getString(data[j])) / 30;
                         }
+
+
                     } else {
                         for (int j = 0; j < data.length; j++) {
                             values[j] += Float.parseFloat(detail.getString(data[j])) / 30;
                         }
                     }
-
                 } else {
                     barEntries.add(new BarEntry(pos--, values));
                     thisMonth = detail.getString("date").split("\\.")[1];
@@ -372,10 +375,14 @@ public class DataRepository {
                         }
                     }
 
+                    Date date = currentDate.parse(detail.getString("date"));
+                    String dayOfWeek = new SimpleDateFormat("MMMM", Locale.ENGLISH).format(date);
+                    labels[i] = dayOfWeek.substring(0, 3);
                 }
+
             }
             barEntries.add(new BarEntry(pos, values));
-        } catch (JSONException e) {
+        } catch (JSONException | ParseException e) {
             e.printStackTrace();
         }
         String labelValue = getCategoryLabel(category, data[0]);
@@ -388,7 +395,7 @@ public class DataRepository {
         });
         dataSet.setStackLabels(data);
         dataSet.setColors(thisColors);
-        return new BarData(dataSet);
+        return new Custom(new BarData(dataSet), labels);
     }
 
     public LineData getDailyLineGraphData(String category, String data, int thisColor) {

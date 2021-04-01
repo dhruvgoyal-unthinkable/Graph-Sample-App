@@ -28,7 +28,7 @@ public class DataProvider {
         return repository.getWeeklyData("smart_daily", new String[]{"step"}, new int[]{colors[0]});
     }
 
-    public BarData getMonthlySteps() {
+    public Custom getMonthlySteps() {
         return repository.getMonthlyData("smart_daily", new String[]{"step"}, new int[]{colors[0]});
     }
 
@@ -40,7 +40,7 @@ public class DataProvider {
         return repository.getWeeklyData("smart_daily", new String[]{"distance"}, new int[]{colors[1]});
     }
 
-    public BarData getMonthlyDistance() {
+    public Custom getMonthlyDistance() {
         return repository.getMonthlyData("smart_daily", new String[]{"distance"}, new int[]{colors[1]});
     }
 
@@ -52,7 +52,7 @@ public class DataProvider {
         return repository.getWeeklyData("smart_daily", new String[]{"calories"}, new int[]{colors[2]});
     }
 
-    public BarData getMonthlyCalories() {
+    public Custom getMonthlyCalories() {
         return repository.getMonthlyData("smart_daily", new String[]{"calories"}, new int[]{colors[2]});
     }
 
@@ -64,7 +64,7 @@ public class DataProvider {
         return repository.getWeeklyData("smart_bp", new String[]{"spo2Data"}, new int[]{colors[3]});
     }
 
-    public BarData getMonthlyBloodOxygen() {
+    public Custom getMonthlyBloodOxygen() {
         return repository.getMonthlyData("smart_bp", new String[]{"spo2Data"}, new int[]{colors[3]});
     }
 
@@ -88,7 +88,7 @@ public class DataProvider {
         return repository.getWeeklyData("smart_hrv", new String[]{"highBP", "lowBP"}, new int[]{colors[5], colors[0]});
     }
 
-    public BarData getMonthlyBloodPressure() {
+    public Custom getMonthlyBloodPressure() {
         return repository.getMonthlyData("smart_hrv", new String[]{"highBP", "lowBP"}, new int[]{colors[5], colors[0]});
     }
 
