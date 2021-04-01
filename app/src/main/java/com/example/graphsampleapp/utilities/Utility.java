@@ -110,7 +110,6 @@ public class Utility {
     private static void updateGraph(BarChart barChart, BarData data) {
         barChart.setData(data);
         barChart.invalidate();
-        data.setHighlightEnabled(false);
     }
 
     private static void updateLineGraph(LineChart lineChart, LineData data) {
@@ -150,7 +149,7 @@ public class Utility {
         lineChart.setDoubleTapToZoomEnabled(false);
     }
 
-    public static void updateLabels(BarChart chart, int count, String[] labels) {
+    private static void updateLabels(BarChart chart, int count, String[] labels) {
         chart.getXAxis().setLabelCount(count);
         IndexAxisValueFormatter formatter = new IndexAxisValueFormatter();
         formatter.setValues(labels);
