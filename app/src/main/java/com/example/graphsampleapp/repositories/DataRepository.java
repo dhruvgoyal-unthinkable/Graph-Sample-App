@@ -291,9 +291,16 @@ public class DataRepository {
                 } else {
                     barEntries.add(new BarEntry(pos--, values));
                     thisDate = detail.getString("date");
-                    for (int j = 0; j < data.length; j++) {
-                        values[j] = Float.parseFloat(detail.getString(data[j])) / 7;
+                    if (data[0].equalsIgnoreCase("distance")){
+                        for (int j = 0; j < data.length; j++) {
+                            values[j] = 0.621f * Float.parseFloat(detail.getString(data[j])) / 7;
+                        }
+                    }else{
+                        for (int j = 0; j < data.length; j++) {
+                            values[j] = Float.parseFloat(detail.getString(data[j])) / 7;
+                        }
                     }
+
                 }
             }
             barEntries.add(new BarEntry(pos, values));
@@ -341,9 +348,16 @@ public class DataRepository {
                 } else {
                     barEntries.add(new BarEntry(pos--, values));
                     thisMonth = detail.getString("date").split("\\.")[1];
-                    for (int j = 0; j < data.length; j++) {
-                        values[j] = Float.parseFloat(detail.getString(data[j])) / 7;
+                    if (data[0].equalsIgnoreCase("distance")){
+                        for (int j = 0; j < data.length; j++) {
+                            values[j] = 0.621f * Float.parseFloat(detail.getString(data[j])) / 7;
+                        }
+                    }else{
+                        for (int j = 0; j < data.length; j++) {
+                            values[j] = Float.parseFloat(detail.getString(data[j])) / 7;
+                        }
                     }
+
                 }
             }
             barEntries.add(new BarEntry(pos, values));
