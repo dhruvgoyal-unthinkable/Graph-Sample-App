@@ -24,7 +24,6 @@ public class Utility {
                 binding.dayBtn.setBackgroundColor(Color.parseColor("#1EB4FD"));
                 binding.weekBtn.setBackgroundColor(Color.parseColor("#FFA93C"));
                 binding.monthBtn.setBackgroundColor(Color.parseColor("#FFA93C"));
-
                 Custom custom = provider.getDailySteps();
                 BarData data = custom.data;
                 updateGraph(binding.stepsChart, data);
@@ -51,9 +50,15 @@ public class Utility {
                 updateGraph(binding.bloodOxygenChart, data);
                 updateLabels(binding.bloodOxygenChart, data.getEntryCount(), custom.labels);
 
+                CustomLine customLine = provider.getDailyTemperature();
+                LineData lineData = customLine.data;
+                updateLineGraph(binding.tempChart, lineData);
+                updateLabelsLine(binding.tempChart, lineData.getEntryCount(), custom.labels);
 
-                updateLineGraph(binding.tempChart, provider.getDailyTemperature());
-                updateLineGraph(binding.heartRateChart, provider.getDailyHearRate());
+                customLine = provider.getDailyHearRate();
+                lineData = customLine.data;
+                updateLineGraph(binding.heartRateChart, lineData);
+                updateLabelsLine(binding.heartRateChart, lineData.getEntryCount(), custom.labels);
                 break;
             }
             case TYPE.WEEK: {
@@ -141,7 +146,10 @@ public class Utility {
     }
 
     public static void decorateLineGraph(LineChart lineChart) {
-        lineChart.getXAxis().setEnabled(false);
+        lineChart.getXAxis().setDrawAxisLine(false);
+        lineChart.getXAxis().setEnabled(true);
+        lineChart.getXAxis().setDrawGridLines(false);
+        lineChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE);
         lineChart.getAxisLeft().setEnabled(false);
         lineChart.getAxisRight().setEnabled(false);
         lineChart.setDescription(null);
@@ -150,6 +158,12 @@ public class Utility {
     }
 
     private static void updateLabels(BarChart chart, int count, String[] labels) {
+        chart.getXAxis().setLabelCount(count);
+        IndexAxisValueFormatter formatter = new IndexAxisValueFormatter();
+        formatter.setValues(labels);
+        chart.getXAxis().setValueFormatter(formatter);
+    }
+    public static void updateLabelsLine(LineChart chart, int count, String[] labels) {
         chart.getXAxis().setLabelCount(count);
         IndexAxisValueFormatter formatter = new IndexAxisValueFormatter();
         formatter.setValues(labels);

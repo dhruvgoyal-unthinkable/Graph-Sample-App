@@ -3,6 +3,7 @@ package com.example.graphsampleapp.repositories;
 import android.graphics.Color;
 
 import com.example.graphsampleapp.utilities.Custom;
+import com.example.graphsampleapp.utilities.CustomLine;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.LineData;
 
@@ -68,7 +69,7 @@ public class DataProvider {
         return repository.getMonthlyData("smart_bp", new String[]{"spo2Data"}, new int[]{colors[3]});
     }
 
-    public LineData getDailyTemperature() {
+    public CustomLine getDailyTemperature() {
         return repository.getDailyLineGraphData("smart_temp", "temperature", colors[4]);
     }
 
@@ -92,7 +93,7 @@ public class DataProvider {
         return repository.getMonthlyData("smart_hrv", new String[]{"highBP", "lowBP"}, new int[]{colors[5], colors[0]});
     }
 
-    public LineData getDailyHearRate() {
+    public CustomLine getDailyHearRate() {
         return repository.getDailyLineGraphData("smart_hrv", "heartRate", colors[0]);
     }
 

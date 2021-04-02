@@ -1,6 +1,7 @@
 package com.example.graphsampleapp.repositories;
 
 import com.example.graphsampleapp.utilities.Custom;
+import com.example.graphsampleapp.utilities.CustomLine;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -376,8 +377,8 @@ public class DataRepository {
                     }
 
                     Date date = currentDate.parse(detail.getString("date"));
-                    String dayOfWeek = new SimpleDateFormat("MMMM", Locale.ENGLISH).format(date);
-                    labels[i] = dayOfWeek.substring(0, 3);
+                    String month = new SimpleDateFormat("MMMM", Locale.ENGLISH).format(date);
+                    labels[i] = month.substring(0, 3);
                 }
 
             }
@@ -398,25 +399,33 @@ public class DataRepository {
         return new Custom(new BarData(dataSet), labels);
     }
 
-    public LineData getDailyLineGraphData(String category, String data, int thisColor) {
+    public CustomLine getDailyLineGraphData(String category, String data, int thisColor) {
         ArrayList<Entry> lineEntries = new ArrayList<>();
-
+        String[] labels = new String[0];
         try {
             JSONArray dailyDetails = (JSONArray) details.get(category);
+            labels = new String[dailyDetails.length()];
+            SimpleDateFormat currentDate = new SimpleDateFormat("yyyy.MM.dd", Locale.ENGLISH);
             if (data.equalsIgnoreCase("temperature")) {
                 for (int i = 0; i < dailyDetails.length(); i++) {
                     JSONObject detail = (JSONObject) dailyDetails.get(i);
                     float celsius = Float.parseFloat(detail.getString(data));
                     float farenheit = ((celsius * 9) / 5) + 32;
                     lineEntries.add(new Entry(i, farenheit));
+                    Date date = currentDate.parse(detail.getString("date"));
+                    String dayOfWeek = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(date);
+                    labels[i] = dayOfWeek.substring(0, 3);
                 }
             } else {
                 for (int i = 0; i < dailyDetails.length(); i++) {
                     JSONObject detail = (JSONObject) dailyDetails.get(i);
                     lineEntries.add(new Entry(i, Float.parseFloat(detail.getString(data))));
+                    Date date = currentDate.parse(detail.getString("date"));
+                    String dayOfWeek = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(date);
+                    labels[i] = dayOfWeek.substring(0, 3);
                 }
             }
-        } catch (JSONException e) {
+        } catch (JSONException | ParseException e) {
             e.printStackTrace();
         }
         String labelValue = getCategoryLabel(category, data);
@@ -428,7 +437,7 @@ public class DataRepository {
             }
         });
         dataSet.setColor(thisColor);
-        return new LineData(dataSet);
+        return new CustomLine(new LineData(dataSet), labels);
     }
 
     public LineData getWeeklyLineGraphData(String category, String data, int thisColor) {
