@@ -96,7 +96,7 @@ public class Utility {
                 updateGraph(binding.caloriesChart, data);
                 updateLabels(binding.caloriesChart, data.getEntryCount(), custom.labels);
 
-                custom = provider.getDailyBloodPressure();
+                custom = provider.getMonthlyBloodPressure();
                 data = custom.data;
                 updateGraph(binding.bloodPressureChart, data);
                 updateLabels(binding.bloodPressureChart, data.getEntryCount(), custom.labels);
