@@ -1,6 +1,5 @@
 package com.example.graphsampleapp.utilities;
 
-import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.LineData;
 
 public class CustomLine {

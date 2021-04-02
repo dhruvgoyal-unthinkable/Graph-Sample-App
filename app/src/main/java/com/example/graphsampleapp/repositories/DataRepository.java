@@ -1,5 +1,9 @@
 package com.example.graphsampleapp.repositories;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
 import com.example.graphsampleapp.utilities.Custom;
 import com.example.graphsampleapp.utilities.CustomLine;
 import com.github.mikephil.charting.data.BarData;
@@ -16,6 +20,7 @@ import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -279,11 +284,11 @@ public class DataRepository {
         return new Custom(new BarData(dataSet), labels);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public BarData getWeeklyData(String category, String[] data, int[] thisColors) {
         ArrayList<BarEntry> barEntries = new ArrayList<>();
-        SimpleDateFormat currentDate = new SimpleDateFormat("yyyy.MM.dd", Locale.ENGLISH);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd", Locale.ENGLISH);
         Date todayDate = new Date();
-        String thisDate = currentDate.format(todayDate);
 
         try {
             int pos = 52; ///1 year = 52 week
@@ -292,7 +297,7 @@ public class DataRepository {
             Arrays.fill(values, 0.0f);
             for (int i = 0; i < dailyDetails.length(); i++) {
                 JSONObject detail = (JSONObject) dailyDetails.get(i);
-                if (thisDate.compareTo(detail.getString("date")) < 6) {
+                if (ChronoUnit.DAYS.between(format.parse(detail.getString("date")).toInstant(), todayDate.toInstant()) <= 7) {
                     if (data[0].equalsIgnoreCase("distance")) {
                         for (int j = 0; j < data.length; j++) {
                             values[j] += 0.621f * Float.parseFloat(detail.getString(data[j])) / 7;
@@ -305,7 +310,7 @@ public class DataRepository {
 
                 } else {
                     barEntries.add(new BarEntry(pos--, values));
-                    thisDate = detail.getString("date");
+                    todayDate = format.parse(detail.getString("date"));
                     if (data[0].equalsIgnoreCase("distance")) {
                         for (int j = 0; j < data.length; j++) {
                             values[j] = 0.621f * Float.parseFloat(detail.getString(data[j])) / 7;
@@ -320,6 +325,8 @@ public class DataRepository {
             }
             barEntries.add(new BarEntry(pos, values));
         } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
             e.printStackTrace();
         }
         String labelValue = getCategoryLabel(category, data[0]);
@@ -368,21 +375,23 @@ public class DataRepository {
                     thisMonth = detail.getString("date").split("\\.")[1];
                     if (data[0].equalsIgnoreCase("distance")) {
                         for (int j = 0; j < data.length; j++) {
-                            values[j] = 0.621f * Float.parseFloat(detail.getString(data[j])) / 7;
+                            values[j] = 0.621f * Float.parseFloat(detail.getString(data[j])) / 30;
                         }
                     } else {
                         for (int j = 0; j < data.length; j++) {
-                            values[j] = Float.parseFloat(detail.getString(data[j])) / 7;
+                            values[j] = Float.parseFloat(detail.getString(data[j])) / 30;
                         }
                     }
 
                     Date date = currentDate.parse(detail.getString("date"));
+                    assert date != null;
                     String month = new SimpleDateFormat("MMMM", Locale.ENGLISH).format(date);
                     labels[i] = month.substring(0, 3);
                 }
 
             }
             barEntries.add(new BarEntry(pos, values));
+
         } catch (JSONException | ParseException e) {
             e.printStackTrace();
         }
