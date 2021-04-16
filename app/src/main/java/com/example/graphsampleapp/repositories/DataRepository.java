@@ -284,7 +284,7 @@ public class DataRepository {
         return new Custom(new BarData(dataSet), labels);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+
     public BarData getWeeklyData(String category, String[] data, int[] thisColors) {
         ArrayList<BarEntry> barEntries = new ArrayList<>();
         SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd", Locale.ENGLISH);
@@ -297,7 +297,10 @@ public class DataRepository {
             Arrays.fill(values, 0.0f);
             for (int i = 0; i < dailyDetails.length(); i++) {
                 JSONObject detail = (JSONObject) dailyDetails.get(i);
-                if (ChronoUnit.DAYS.between(format.parse(detail.getString("date")).toInstant(), todayDate.toInstant()) <= 7) {
+                Date inputDate = format.parse(detail.getString("date"));
+                long dateDifference = todayDate.getTime() - inputDate.getTime();
+                int daysBetween = (int) (dateDifference / (1000*60*60*24));
+                if (daysBetween <= 7) {
                     if (data[0].equalsIgnoreCase("distance")) {
                         for (int j = 0; j < data.length; j++) {
                             values[j] += 0.621f * Float.parseFloat(detail.getString(data[j])) / 7;
