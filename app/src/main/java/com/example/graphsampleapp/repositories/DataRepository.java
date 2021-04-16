@@ -454,9 +454,9 @@ public class DataRepository {
 
     public LineData getWeeklyLineGraphData(String category, String data, int thisColor) {
         ArrayList<Entry> lineEntries = new ArrayList<>();
-        SimpleDateFormat currentDate = new SimpleDateFormat("yyyy.MM.dd", Locale.ENGLISH);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd", Locale.ENGLISH);
         Date todayDate = new Date();
-        String thisDate = currentDate.format(todayDate);
+
         try {
             float total = 0;
             int pos = 52; ///1 year = 52 week
@@ -464,12 +464,15 @@ public class DataRepository {
             if (data.equalsIgnoreCase("temperature")) {
                 for (int i = 0; i < dailyDetails.length(); i++) {
                     JSONObject detail = (JSONObject) dailyDetails.get(i);
-                    if (thisDate.compareTo(detail.getString("date")) < 6) {
+                    Date inputDate = format.parse(detail.getString("date"));
+                    long dateDifference = todayDate.getTime() - inputDate.getTime();
+                    int daysBetween = (int) (dateDifference / (1000*60*60*24));
+                    if (daysBetween <= 7) {
                         float celsius = Float.parseFloat(detail.getString(data));
                         total += ((celsius * 9) / 5) + 32;
                     } else {
                         lineEntries.add(new Entry(pos--, (float) (total / 7)));
-                        thisDate = detail.getString("date");
+                        todayDate = format.parse(detail.getString("date"));
                         float celsius = Float.parseFloat(detail.getString(data));
                         total = ((celsius * 9) / 5) + 32;
                     }
@@ -477,18 +480,21 @@ public class DataRepository {
             } else {
                 for (int i = 0; i < dailyDetails.length(); i++) {
                     JSONObject detail = (JSONObject) dailyDetails.get(i);
-                    if (thisDate.compareTo(detail.getString("date")) < 6)
+                    Date inputDate = format.parse(detail.getString("date"));
+                    long dateDifference = todayDate.getTime() - inputDate.getTime();
+                    int daysBetween = (int) (dateDifference / (1000*60*60*24));
+                    if (daysBetween <= 7)
                         total += Float.parseFloat(detail.getString(data));
                     else {
                         lineEntries.add(new Entry(pos--, (float) (total / 7)));
-                        thisDate = detail.getString("date");
+                        todayDate = format.parse(detail.getString("date"));
                         total = Float.parseFloat(detail.getString(data));
                     }
                 }
             }
 
             lineEntries.add(new Entry(pos, (float) (total / 7)));
-        } catch (JSONException e) {
+        } catch (JSONException | ParseException e) {
             e.printStackTrace();
         }
         String labelValue = getCategoryLabel(category, data);
